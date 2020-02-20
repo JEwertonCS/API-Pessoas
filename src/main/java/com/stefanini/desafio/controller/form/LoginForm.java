@@ -1,5 +1,7 @@
 package com.stefanini.desafio.controller.form;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import javax.validation.constraints.NotBlank;
 
 public class LoginForm {
@@ -24,5 +26,9 @@ public class LoginForm {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public UsernamePasswordAuthenticationToken converter() {
+        return new UsernamePasswordAuthenticationToken( usuario, senha );
     }
 }
