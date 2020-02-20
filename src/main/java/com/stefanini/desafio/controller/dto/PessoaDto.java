@@ -2,6 +2,7 @@ package com.stefanini.desafio.controller.dto;
 
 import com.stefanini.desafio.model.Pessoa;
 import com.stefanini.desafio.model.Sexo;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,8 +28,8 @@ public class PessoaDto {
         this.email = pessoa.getEmail();
     }
 
-    public static List<PessoaDto> converter(List<Pessoa> pessoas) {
-        return pessoas.stream().map( PessoaDto::new ).collect(Collectors.toList());
+    public static Page<PessoaDto> converter(Page<Pessoa> pessoas) {
+        return pessoas.map( PessoaDto::new );
     }
 
     public String getNome() {

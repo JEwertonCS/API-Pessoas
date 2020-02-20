@@ -8,6 +8,11 @@ import com.stefanini.desafio.model.Pessoa;
 import com.stefanini.desafio.repository.PessoaRepository;
 import com.stefanini.desafio.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -26,21 +31,22 @@ public class PessoaController {
     PessoaRepository pessoaRepository;
 
     @GetMapping
-    public List<PessoaDto> listar( @RequestParam(required = false) String cpf ){
+    public Page<PessoaDto> listar(@RequestParam(required = false) String cpf,
+        @PageableDefault( page = 0, size = 30, sort = "id", direction = Sort.Direction.ASC)  Pageable pageable){
 
-        List<Pessoa> pessoas = null;
+        Page<Pessoa> pessoas = null;
         if ( cpf == null ) {
-            pessoas = pessoaRepository.findAll();
+            pessoas = pessoaRepository.findAll( pageable );
             return PessoaDto.converter(pessoas);
         } else {
-            pessoas = pessoaRepository.findByCpf(Util.formatarCPF(cpf) );
+            pessoas = pessoaRepository.findByCpf(Util.formatarCPF(cpf), pageable );
             return PessoaDto.converter( pessoas );
         }
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> salvar(@RequestBody @Valid PessoaForm pessoaForm, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid PessoaForm pessoaForm, UriComponentsBuilder uriBuilder){
         Pessoa pessoa = pessoaForm.converter();
         List<Pessoa> pessoaExistente = pessoaRepository.findByCpf( pessoa.getCpf() );
 
