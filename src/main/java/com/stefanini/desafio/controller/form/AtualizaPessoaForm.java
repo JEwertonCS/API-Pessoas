@@ -3,14 +3,13 @@ package com.stefanini.desafio.controller.form;
 import com.stefanini.desafio.model.Pessoa;
 import com.stefanini.desafio.model.Sexo;
 import com.stefanini.desafio.repository.PessoaRepository;
-import com.stefanini.desafio.utils.Util;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.*;
-import java.text.Format;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class PessoaForm {
+public class AtualizaPessoaForm {
 
     @NotBlank @NotEmpty
     private String nome;
@@ -85,8 +84,16 @@ public class PessoaForm {
         this.email = email;
     }
 
-    public Pessoa converter() {
-
-        return new Pessoa( nome, sexo, dataNascimento, naturalidade, nacionalidade, Util.formatarCPF(cpf), email );
+    public Pessoa atualizar(Long id, PessoaRepository pessoaRepository) {
+        Pessoa pessoa = pessoaRepository.getOne( id );
+        pessoa.setNome( nome );
+        pessoa.setDataNascimento( dataNascimento );
+        pessoa.setCpf( cpf );
+        pessoa.setSexo( sexo );
+        pessoa.setNacionalidade( nacionalidade );
+        pessoa.setNaturalidade( naturalidade );
+        pessoa.setEmail( email );
+        pessoa.setDataUltimaAlteracao( LocalDateTime.now() );
+        return pessoa;
     }
 }

@@ -1,18 +1,22 @@
 package com.stefanini.desafio.controller;
 
+import com.stefanini.desafio.controller.dto.AtualizaPessoaDto;
 import com.stefanini.desafio.controller.dto.PessoaDto;
+import com.stefanini.desafio.controller.form.AtualizaPessoaForm;
 import com.stefanini.desafio.controller.form.PessoaForm;
 import com.stefanini.desafio.model.Pessoa;
 import com.stefanini.desafio.repository.PessoaRepository;
 import com.stefanini.desafio.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping( "/pessoas" )
@@ -35,7 +39,8 @@ public class PessoaController {
     }
 
     @PostMapping
-    public ResponseEntity<PessoaDto> cadastrar(@RequestBody @Valid PessoaForm pessoaForm, UriComponentsBuilder uriBuilder){
+    @Transactional
+    public ResponseEntity<?> salvar(@RequestBody @Valid PessoaForm pessoaForm, UriComponentsBuilder uriBuilder){
         Pessoa pessoa = pessoaForm.converter();
         List<Pessoa> pessoaExistente = pessoaRepository.findByCpf( pessoa.getCpf() );
 
@@ -44,8 +49,31 @@ public class PessoaController {
             URI uri = uriBuilder.path("/pessoas/{id}").buildAndExpand( pessoa.getId() ).toUri();
             return ResponseEntity.created( uri ).body( new PessoaDto(pessoa) );
         } else {
-            return ResponseEntity.badRequest().body( new PessoaDto(pessoa) );
+            return ResponseEntity.badRequest().body("CPF já cadastrado!");
         }
     }
 
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> atualizar( @PathVariable Long id, @RequestBody @Valid AtualizaPessoaForm pessoaForm ){
+        Optional optional = pessoaRepository.findById( id );
+
+        if ( optional.isPresent() ){
+            Pessoa pessoa = pessoaForm.atualizar( id, pessoaRepository );
+            return ResponseEntity.ok().body(new AtualizaPessoaDto( pessoa ));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public  ResponseEntity<?> deletar( @PathVariable Long id ) {
+        Optional optional = pessoaRepository.findById( id );
+
+        if ( optional.isPresent() ) {
+            pessoaRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }
