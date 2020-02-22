@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class PessoaDto {
 
+    private Long id;
     private String nome;
     private Sexo sexo;
     private LocalDate dataNascimento;
@@ -19,6 +20,7 @@ public class PessoaDto {
     private String email;
 
     public PessoaDto ( Pessoa pessoa ) {
+        this.id = pessoa.getId();
         this.nome = pessoa.getNome();
         this.sexo = pessoa.getSexo();
         this.dataNascimento = pessoa.getDataNascimento();
@@ -30,6 +32,10 @@ public class PessoaDto {
 
     public static Page<PessoaDto> converter(Page<Pessoa> pessoas) {
         return pessoas.map( PessoaDto::new );
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getNome() {

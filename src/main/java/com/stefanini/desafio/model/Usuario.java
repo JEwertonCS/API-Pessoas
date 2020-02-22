@@ -2,6 +2,8 @@ package com.stefanini.desafio.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -110,5 +112,13 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isValido(String usuario, String senha) {
+        boolean checkpw = BCrypt.checkpw(senha, this.getSenha());
+        if (this.getNome().equals(usuario) && checkpw ){
+            return true;
+        }
+        return false;
     }
 }

@@ -33,5 +33,18 @@ public class TokenService {
                 .compact();
     }
 
-   
+    public boolean tokenValido(String token) {
+        try {
+            Jwts.parser().setSigningKey( this.secret ).parseClaimsJws( token );
+            return true;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public Long getIdUsuario(String token) {
+        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return Long.parseLong( claims.getSubject() );
+    }
 }

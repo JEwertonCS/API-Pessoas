@@ -2,12 +2,10 @@ package com.stefanini.desafio.controller.form;
 
 import com.stefanini.desafio.model.Pessoa;
 import com.stefanini.desafio.model.Sexo;
-import com.stefanini.desafio.repository.PessoaRepository;
-import com.stefanini.desafio.utils.Util;
+import com.stefanini.desafio.helper.Util;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.*;
-import java.text.Format;
 import java.time.LocalDate;
 
 public class PessoaForm {

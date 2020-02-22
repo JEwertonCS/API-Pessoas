@@ -1,5 +1,6 @@
 package com.stefanini.desafio.controller.config.security;
 
+import com.stefanini.desafio.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +13,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    AutenticacaoService autenticacaoService;
+    private AutenticacaoService autenticacaoService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     @Bean
@@ -35,10 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
         .antMatchers( HttpMethod.GET, "/pessoas").permitAll()
-        .antMatchers( HttpMethod.POST, "/auth").permitAll()
+//        .antMatchers( HttpMethod.POST, "/auth").permitAll()
         .anyRequest().authenticated()
         .and().csrf().disable()
-        .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS );
+        .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS )
+        .and().addFilterBefore( new AutenticacaoBasicFilter( autenticacaoService, usuarioRepository ), UsernamePasswordAuthenticationFilter.class );
     }
 
     @Override

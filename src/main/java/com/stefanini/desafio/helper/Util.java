@@ -1,4 +1,4 @@
-package com.stefanini.desafio.utils;
+package com.stefanini.desafio.helper;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
