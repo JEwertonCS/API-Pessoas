@@ -1,24 +1,21 @@
 package com.stefanini.desafio.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
+@Document
 public class Perfil implements GrantedAuthority {
 
-    @Id @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private Long id;
+    @Id
+    private String id;
     private String nomePerfil;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

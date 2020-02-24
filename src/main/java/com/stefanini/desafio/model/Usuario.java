@@ -1,25 +1,24 @@
 package com.stefanini.desafio.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
+@Document
 public class Usuario implements UserDetails {
-    @Id @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private Long id;
+    @Id
+    private String id;
 
     private String nome;
     private String email;
     private String senha;
 
-    @ManyToMany( fetch = FetchType.EAGER )
     private List<Perfil> perfis = new ArrayList<>();
 
     @Override
@@ -47,11 +46,11 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

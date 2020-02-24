@@ -1,12 +1,13 @@
 package com.stefanini.desafio.repository;
 
 import com.stefanini.desafio.model.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+@Repository
+public interface UsuarioRepository extends MongoRepository<Usuario, String> {
 
     Optional<Usuario> findByNome(String nome);
 }

@@ -60,7 +60,7 @@ public class PessoaController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> atualizar( @PathVariable Long id, @RequestBody @Valid AtualizaPessoaForm pessoaForm ){
+    public ResponseEntity<?> atualizar( @PathVariable String id, @RequestBody @Valid AtualizaPessoaForm pessoaForm ){
         Optional optional = pessoaRepository.findById( id );
 
         if ( optional.isPresent() ){
@@ -72,7 +72,7 @@ public class PessoaController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public  ResponseEntity<?> deletar( @PathVariable Long id ) {
+    public  ResponseEntity<?> deletar( @PathVariable String id ) {
         Optional optional = pessoaRepository.findById( id );
 
         if ( optional.isPresent() ) {

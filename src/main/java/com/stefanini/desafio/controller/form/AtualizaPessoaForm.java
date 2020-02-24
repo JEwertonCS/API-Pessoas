@@ -84,8 +84,9 @@ public class AtualizaPessoaForm {
         this.email = email;
     }
 
-    public Pessoa atualizar(Long id, PessoaRepository pessoaRepository) {
-        Pessoa pessoa = pessoaRepository.getOne( id );
+    public Pessoa atualizar(String id, PessoaRepository pessoaRepository) {
+        Pessoa pessoa = pessoaRepository.findById( id ).get();
+
         pessoa.setNome( nome );
         pessoa.setDataNascimento( dataNascimento );
         pessoa.setCpf( cpf );
@@ -94,6 +95,8 @@ public class AtualizaPessoaForm {
         pessoa.setNaturalidade( naturalidade );
         pessoa.setEmail( email );
         pessoa.setDataUltimaAlteracao( LocalDateTime.now() );
+
+        pessoaRepository.save( pessoa );
         return pessoa;
     }
 }

@@ -22,7 +22,7 @@ public class AutenticacaoService implements UserDetailsService {
         if ( optional.isPresent() ){
             return optional.get();
         }
-return null;
+        return null;
        // throw new UsernameNotFoundException("Dados Inválidos!");
     }
 }

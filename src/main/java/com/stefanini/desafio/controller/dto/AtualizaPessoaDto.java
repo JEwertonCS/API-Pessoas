@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class AtualizaPessoaDto {
 
     private String nome;
-    private Sexo sexo;
+    private String sexo;
     private LocalDate dataNascimento;
     private String naturalidade;
     private String nacionalidade;
@@ -38,7 +38,7 @@ public class AtualizaPessoaDto {
         return nome;
     }
 
-    public Sexo getSexo() {
+    public String getSexo() {
         return sexo;
     }
 

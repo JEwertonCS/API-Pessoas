@@ -1,21 +1,22 @@
 package com.stefanini.desafio.model;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+@Document
 public class Pessoa {
 
-    @Id @GeneratedValue( strategy = GenerationType.IDENTITY )
-    private Long id;
+    @Id
+    private String id;
 
     @NotNull
     private String nome;
 
-    @Enumerated( EnumType.STRING )
-    private Sexo sexo;
+    private String sexo;
 
     private LocalDate dataNascimento;
     private LocalDateTime dataCriacao = LocalDateTime.now();
@@ -32,7 +33,7 @@ public class Pessoa {
     public Pessoa(@NotNull String nome, Sexo sexo, LocalDate dataNascimento,
                   String naturalidade, String nacionalidade, String cpf, String email) {
         this.nome = nome;
-        this.sexo = sexo;
+        this.sexo = sexo.toValue();
         this.dataNascimento = dataNascimento;
         this.naturalidade = naturalidade;
         this.nacionalidade = nacionalidade;
@@ -40,11 +41,11 @@ public class Pessoa {
         this.email = email;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -56,12 +57,12 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public Sexo getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
     public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
+        this.sexo = sexo.toValue();
     }
 
     public LocalDate getDataNascimento() {

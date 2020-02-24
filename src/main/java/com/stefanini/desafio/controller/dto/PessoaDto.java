@@ -1,18 +1,15 @@
 package com.stefanini.desafio.controller.dto;
 
 import com.stefanini.desafio.model.Pessoa;
-import com.stefanini.desafio.model.Sexo;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class PessoaDto {
 
-    private Long id;
+    private String id;
     private String nome;
-    private Sexo sexo;
+    private String sexo;
     private LocalDate dataNascimento;
     private String naturalidade;
     private String nacionalidade;
@@ -34,7 +31,7 @@ public class PessoaDto {
         return pessoas.map( PessoaDto::new );
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -42,7 +39,7 @@ public class PessoaDto {
         return nome;
     }
 
-    public Sexo getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
