@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
         .antMatchers( HttpMethod.GET, "/pessoas").permitAll()
+        .antMatchers( HttpMethod.GET, "/pessoas-enderecos").permitAll()
         .antMatchers( HttpMethod.GET, "/actuator/**").permitAll()
         .anyRequest().authenticated()
         .and().csrf().disable()

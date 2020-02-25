@@ -27,6 +27,8 @@ public class Pessoa {
 
     private String email;
 
+    private Endereco endereco;
+
     public Pessoa() {
     }
 
@@ -39,6 +41,18 @@ public class Pessoa {
         this.nacionalidade = nacionalidade;
         this.cpf = cpf;
         this.email = email;
+    }
+
+    public Pessoa(@NotNull String nome, Sexo sexo, LocalDate dataNascimento,
+                  String naturalidade, String nacionalidade, String cpf, String email, Endereco endereco) {
+        this.nome = nome;
+        this.sexo = sexo.toValue();
+        this.dataNascimento = dataNascimento;
+        this.naturalidade = naturalidade;
+        this.nacionalidade = nacionalidade;
+        this.cpf = cpf;
+        this.email = email;
+        this.endereco = endereco;
     }
 
     public String getId() {
@@ -119,5 +133,17 @@ public class Pessoa {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

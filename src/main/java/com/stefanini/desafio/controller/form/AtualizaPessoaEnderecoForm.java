@@ -1,14 +1,16 @@
 package com.stefanini.desafio.controller.form;
 
+import com.stefanini.desafio.model.Endereco;
 import com.stefanini.desafio.model.Pessoa;
 import com.stefanini.desafio.model.Sexo;
-import com.stefanini.desafio.helper.Util;
+import com.stefanini.desafio.repository.PessoaRepository;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class PessoaForm {
+public class AtualizaPessoaEnderecoForm {
 
     @NotBlank @NotEmpty
     private String nome;
@@ -26,6 +28,8 @@ public class PessoaForm {
 
     @Email( message = "Informe um e-mail válido!" )
     private String email;
+
+    private Endereco endereco;
 
     public String getNome() {
         return nome;
@@ -83,7 +87,28 @@ public class PessoaForm {
         this.email = email;
     }
 
-    public Pessoa converter() {
-        return new Pessoa( nome, sexo, dataNascimento, naturalidade, nacionalidade, Util.formatarCPF(cpf), email );
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public Pessoa atualizar(String id, PessoaRepository pessoaRepository) {
+        Pessoa pessoa = pessoaRepository.findById( id ).get();
+
+        pessoa.setNome( nome );
+        pessoa.setDataNascimento( dataNascimento );
+        pessoa.setCpf( cpf );
+        pessoa.setSexo( sexo );
+        pessoa.setNacionalidade( nacionalidade );
+        pessoa.setNaturalidade( naturalidade );
+        pessoa.setEmail( email );
+        pessoa.setDataUltimaAlteracao( LocalDateTime.now() );
+        pessoa.setEndereco( endereco );
+
+        pessoaRepository.save( pessoa );
+        return pessoa;
     }
 }
