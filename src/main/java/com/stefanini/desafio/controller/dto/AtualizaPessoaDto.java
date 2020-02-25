@@ -1,7 +1,6 @@
 package com.stefanini.desafio.controller.dto;
 
 import com.stefanini.desafio.model.Pessoa;
-import com.stefanini.desafio.model.Sexo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
